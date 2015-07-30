@@ -1,0 +1,32 @@
+{
+  "name": "lb-satellizer-facebook",
+  "version": "1.0.0",
+  "description": "lb-satellizer module for Authentication with Facebook",
+  "author": "Matthias Freßdorf <mfressdorf@gmail.com> (http://mfressdorf.de)",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Loopback",
+    "auth",
+    "oauth",
+    "oauth2",
+    "authentication",
+    "satellizer",
+    "token",
+    "social-media"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "querystring": "^0.2.0",
+    "request-promise": "^0.4.3"
+  },
+  "peerDependencies": {
+    "loopback": "2.x || 1.x >=1.8.0"
+  }
+}
