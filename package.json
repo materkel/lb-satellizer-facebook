@@ -10,6 +10,8 @@
   },
   "keywords": [
     "Loopback",
+    "lb-satellizer",
+    "facebook",
     "auth",
     "oauth",
     "oauth2",
