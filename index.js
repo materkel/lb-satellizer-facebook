@@ -7,6 +7,7 @@ var qs = require('querystring');
 module.exports = Facebook;
 
 function Facebook (config) {
+  this.authType = 'oauth2';
   this.clientSecret = config.secret;
   this.userId = null;
   this.userName = null;
