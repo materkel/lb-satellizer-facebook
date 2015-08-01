@@ -1,6 +1,6 @@
 {
   "name": "lb-satellizer-facebook",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "lb-satellizer module for Authentication with Facebook",
   "author": "Matthias Freßdorf <mfressdorf@gmail.com> (http://mfressdorf.de)",
   "main": "index.js",
@@ -21,11 +21,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com:mfressdorf/lb-satellizer-twitter.git"
+    "url": "git://github.com:mfressdorf/lb-satellizer-facebook.git"
   },
   "licenses": {
     "type": "MIT",
-    "url": "https://github.com/mfressdorf/lb-satellizer-twitter/blob/master/LICENSE.md"
+    "url": "https://github.com/mfressdorf/lb-satellizer-facebook/blob/master/LICENSE.md"
   },
   "dependencies": {
     "querystring": "^0.2.0",
