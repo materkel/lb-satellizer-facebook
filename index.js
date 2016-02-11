@@ -1,47 +1,50 @@
-/* jshint -W097  */
-/* globals require, module, console */
+'use strict';
 
-var request = require('request-promise');
-var qs = require('querystring');
+const request = require('request-promise'),
+      qs = require('querystring');
 
-module.exports = Facebook;
+module.exports = (config) => {
+  const authType = 'oauth2',
+        clientSecret = config.secret,
+        accessTokenUrl = 'https://graph.facebook.com/oauth/access_token',
+        graphApiUrl = 'https://graph.facebook.com/me';
 
-function Facebook (config) {
-  this.authType = 'oauth2';
-  this.clientSecret = config.secret;
-  this.userId = null;
-  this.userName = null;
-  this.userEmail = null;
-  this.accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
-  this.graphApiUrl = 'https://graph.facebook.com/me';
-}
+  let userId = null,
+      userName = null,
+      userEmail = null;
 
-Facebook.prototype.authenticate = function(req) {
-  var self = this;
-  var authData = {
-    code: req.body.code,
-    client_id: req.body.clientId,
-    client_secret: this.clientSecret,
-    redirect_uri: req.body.redirectUri
+  return {
+    getAuthType: () => {
+      return authType;
+    },
+
+    getUserData: () => {
+      return {
+        userId,
+        userName,
+        userEmail
+      };
+    },
+
+    authenticate: (req) => {
+      const authData = {
+        code: req.body.code,
+        client_id: req.body.clientId,
+        client_secret: clientSecret,
+        redirect_uri: req.body.redirectUri
+      };
+
+      return request({ url: accessTokenUrl, qs: authData, json: true })
+        .then((response) => {
+          response = qs.parse(response);
+          return request({ url: graphApiUrl, qs: { access_token: response.access_token }, json: true });
+        })
+        .then(function(response) {
+          userId = response.id;
+          userName = response.name;
+          userEmail = response.email;
+          return true;
+        });
+    }
   };
-
-  return request({ url: self.accessTokenUrl, qs: authData, json: true })
-    .then(function(response) {
-      response = qs.parse(response);
-      return response.access_token;
-    })
-    .then(function(accessToken) {
-      return self.retrieveProfile(accessToken);
-    });
-};
-
-Facebook.prototype.retrieveProfile = function(accessToken) {
-  var self = this;
-  return request({ url: self.graphApiUrl, qs: { access_token: accessToken }, json: true})
-    .then(function(response) {
-      self.userId = response.id;
-      self.userName = response.name;
-      self.userEmail = response.email;
-      return true;
-    });
 };
