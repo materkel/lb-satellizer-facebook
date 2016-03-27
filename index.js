@@ -6,8 +6,8 @@ const request = require('request-promise'),
 module.exports = (config) => {
   const authType = 'oauth2',
         clientSecret = config.secret,
-        accessTokenUrl = 'https://graph.facebook.com/oauth/access_token',
-        graphApiUrl = 'https://graph.facebook.com/me';
+        accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token',
+        graphApiUrl = 'https://graph.facebook.com/v2.5/me';
 
   let userId = null,
       userName = null,
@@ -35,16 +35,21 @@ module.exports = (config) => {
       };
 
       return request({ url: accessTokenUrl, qs: authData, json: true })
-        .then((response) => {
-          response = qs.parse(response);
-          return request({ url: graphApiUrl, qs: { access_token: response.access_token }, json: true });
+        .then(res => {
+          return request({
+            url: graphApiUrl,
+            qs: {
+              access_token: res.access_token,
+              fields: 'id,name,email'
+            },
+            json: true });
         })
-        .then(function(response) {
-          userId = response.id;
-          userName = response.name;
-          userEmail = response.email;
+        .then(res => {
+          userId = res.id;
+          userName = res.name;
+          userEmail = res.email;
           return true;
-        });
+        })
     }
   };
 };
